@@ -4879,6 +4879,12 @@ html:root .lab-head h1 {
       </figure>
 <p>構築が終わったら、PRDを読んで、AIROが構築したものがPRDの定める条件（トリガー条件、重複防止、作成されるチケットのフィールド）を実際に満たしているかを確認します。David Chrisについて1件のチケットが処理されるはずです。結果をPRDと照らし合わせてください。</p>
 <p>次に、Genieの2つのスキル（オンデマンドでのマネージャー通知の送信と、チケットステータスの読み取り）を構築します。そのうえで、どちらのスキルにも含まれないこと、たとえばチケットの直接の更新やクローズを依頼し、勝手にアクションを実行せず、きちんと断ることを確認してみましょう。</p>
+<p>必要に応じて、以下を確認・修正します。</p>
+<ul><li>step1のトリガーの実行条件が <code>Status=Inactive</code> となっているか（<code>inactive</code> は不可）。また、トリガー検知の開始時刻（<strong>When first started, this recipe should pick up events from</strong>）が <code>2025/01/01</code> に設定されているか。</li><li><strong>create a kanban ticket</strong> アクションのステップで、Project key と summary が設定されているか。設定されていない場合は、以下のとおり設定します。<ul><li>project key：<strong>List Kanban tickets</strong> アクション（チケット一覧を表示するアクション）のステップの出力にある <strong>Project key</strong> データピル</li><li>summary：<code>IT資産返却チケット（氏名：{DisplayName}）</code>（<code>{DisplayName}</code> は、step1のトリガーで取得できた <strong>Display name</strong> データピルを選択します）</li></ul></li></ul>
+<p><strong>データピル</strong><br>前のステップが取得した値を、あとのステップで使うための部品です。入力欄に文字を直接打ち込む代わりに一覧から選ぶと、レシピが動くたびに、その実行で実際に取得された値へ置き換わります。氏名もプロジェクトキーも実行ごとに変わるため、固定の文字列ではなくデータピルを選びます。</p>
+<p>レシピを実行（スタート）します。Playgroundsへ移動し、Todo に <code>IT資産返却チケット（氏名：David Chris）</code> が作成されていることを確認します。</p>
+<p>Genieも試してみましょう。たとえば、次のように頼んでみます。</p>
+<ul><li>David Chrisのマネージャーにオフボーディング通知を送ってくれますか？</li></ul>
           <aside class="verifier semantic-layout semantic-layout--decision-checkpoint" data-semantic-class="decision-checkpoint" data-guide-structure="verifier"><div class="verifier-prose"><p>両方のアセットをエンドツーエンドで検証します。レシピは、すでに存在するチケットを重複させることなく、正しいフィールドのチケットを作成すること。そしてGenieは、チケットを読み取るだけで、書き込みは一切しないこと。</p></div></aside>
         </div>
       </article>
